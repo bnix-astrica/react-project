@@ -1,6 +1,7 @@
 
 import React from 'react';
 import "./App.css";
+import FilmsList from "./components/filmsList";
 
 
 class App extends React.Component {
@@ -32,6 +33,7 @@ class App extends React.Component {
         <ul>
           {this.state.list.map((item, index) => <li key={index}>{item}</li>)}
         </ul>
+        <FilmsList />
       </div>
     );
   }
