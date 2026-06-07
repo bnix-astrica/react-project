@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { filterFilmsByDirector, getFilmStats, getListOf } from '../helpers/filmHelpers';
 
-function FilmsPage() {
+export default function FilmsPage() {
   const [list, setList] = useState([]);
   const [searchDirector, setSearchDirector] = useState("");
 
@@ -12,11 +13,9 @@ function FilmsPage() {
       .catch((error) => console.error('Error fetching films:', error));
   }, []);
 
-  const directors = getListOf(list, "director");
+  const directors = getListOf(list, 'director');
   const filmsByDirector = filterFilmsByDirector(list, searchDirector);
-  const { avg_score, total, latest } = getFilmStats(list);
-
-  console.log('FilmsPage directors', directors, 'list length', list.length, 'searchDirector', searchDirector);
+  const { avg_score, total, latest } = getFilmStats(filmsByDirector);
 
   return (
     <div>
@@ -55,7 +54,9 @@ function FilmsPage() {
       <ul>
         {filmsByDirector.map((film) => (
           <li key={film.id}>
-            <h3>{film.title}</h3>
+            <h3>
+              <Link to={`film/${film.id}`}>{film.title}</Link>
+            </h3>
             <p>Release Date: {film.release_date}</p>
             <p>{film.description}</p>
           </li>
@@ -64,5 +65,3 @@ function FilmsPage() {
     </div>
   );
 }
-
-export default FilmsPage;
